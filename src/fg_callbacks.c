@@ -124,6 +124,7 @@ void FGAPIENTRY glut##a##Func( FGCB##b callback )               \
 /* Implement all these callback setter functions... */
 IMPLEMENT_CALLBACK_FUNC(Position)
 IMPLEMENT_CALLBACK_FUNC(Keyboard)
+IMPLEMENT_CALLBACK_FUNC(KeyboardExt)
 IMPLEMENT_CALLBACK_FUNC(KeyboardUp)
 IMPLEMENT_CALLBACK_FUNC(Special)
 IMPLEMENT_CALLBACK_FUNC(SpecialUp)

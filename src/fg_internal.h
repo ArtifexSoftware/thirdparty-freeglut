@@ -210,6 +210,7 @@ typedef void (* FGCBReshape       )( int, int );
 typedef void (* FGCBPosition      )( int, int );
 typedef void (* FGCBVisibility    )( int );
 typedef void (* FGCBKeyboard      )( unsigned char, int, int );
+typedef void (* FGCBKeyboardExt   )( int, int, int );
 typedef void (* FGCBKeyboardUp    )( unsigned char, int, int );
 typedef void (* FGCBSpecial       )( int, int, int );
 typedef void (* FGCBSpecialUp     )( int, int, int );
@@ -595,6 +596,7 @@ enum
     WCB_Reshape,
     WCB_Position,
     WCB_Keyboard,
+    WCB_KeyboardExt,
     WCB_KeyboardUp,
     WCB_Special,
     WCB_SpecialUp,
