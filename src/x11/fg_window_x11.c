@@ -460,6 +460,10 @@ void fgPlatformOpenWindow( SFG_Window* window, const char* title,
 #undef WINDOW_CONFIG
 }
 
+void fgPlatformGlutSetInputMethodPosition( int x, int y )
+{
+    /* do nothing yet */
+}
 
 /*
  * Request a window resize

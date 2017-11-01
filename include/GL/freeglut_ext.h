@@ -165,6 +165,11 @@ FGAPI void*   FGAPIENTRY glutGetMenuData( void );
 FGAPI void    FGAPIENTRY glutSetMenuData(void* data);
 
 /*
+ * Input method window positioning.
+ */
+FGAPI void    FGAPIENTRY glutSetInputMethodPosition(int x, int y);
+
+/*
  * Clipboard access
  */
 #define GLUT_CLIPBOARD 0

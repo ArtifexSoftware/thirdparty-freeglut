@@ -835,6 +835,10 @@ void fgPlatformGlutSetIconTitle( const char* title )
     fgStructure.CurrentWindow->State.pWState.IconTitle = strdup(title);
 }
 
+void fgPlatformGlutSetInputMethodPosition( int x, int y )
+{
+    /* do nothing on windows */
+}
 
 /* -- PLATFORM-SPECIFIC INTERFACE FUNCTION -------------------------------------------------- */
 

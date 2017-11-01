@@ -58,6 +58,7 @@ extern void fgPlatformOpenWindow( SFG_Window* window, const char* title,
 extern void fgPlatformCloseWindow( SFG_Window* window );
 extern void fgPlatformGlutSetWindowTitle( const char* title );
 extern void fgPlatformGlutSetIconTitle( const char* title );
+extern void fgPlatformGlutSetInputMethodPosition( int x, int y );
 
 
 /* -- PRIVATE FUNCTIONS ---------------------------------------------------- */
@@ -355,6 +356,17 @@ void FGAPIENTRY glutSetIconTitle( const char* title )
     {
         fgPlatformGlutSetIconTitle ( title );
     }
+}
+
+/*
+ * Set the current window's input method position.
+ */
+void FGAPIENTRY glutSetInputMethodPosition( int x, int y )
+{
+    FREEGLUT_EXIT_IF_NOT_INITIALISED ( "glutSetInputMethodPosition" );
+    FREEGLUT_EXIT_IF_NO_WINDOW ( "glutSetInputMethodPosition" );
+
+    fgPlatformGlutSetInputMethodPosition ( x, y );
 }
 
 /*
