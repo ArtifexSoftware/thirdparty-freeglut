@@ -41,6 +41,8 @@ static Atom fghGetAtom(const char * name)
   return XInternAtom(fgDisplay.pDisplay.Display, name, False);
 }
 
+char *fgClipboardBuffer[3] = { NULL, NULL, NULL };
+
 /*
  * Check if "property" is set on "window".  The property's values are returned
  * through "data".  If the property is set and is of type "type", return the
@@ -331,6 +333,10 @@ void fgPlatformCloseDisplay ( void )
      * created so far
      */
     XCloseDisplay( fgDisplay.pDisplay.Display );
+
+    free(fgClipboardBuffer[0]);
+    free(fgClipboardBuffer[1]);
+    free(fgClipboardBuffer[2]);
 }
 
 
