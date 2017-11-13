@@ -120,7 +120,7 @@
  * The freeglut and GLUT API versions
  */
 #define  FREEGLUT             1
-#define  GLUT_API_VERSION     5
+#define  GLUT_API_VERSION     6
 #define  GLUT_XLIB_IMPLEMENTATION 13
 /* Deprecated:
    cf. http://sourceforge.net/mailarchive/forum.php?thread_name=CABcAi1hw7cr4xtigckaGXB5X8wddLfMcbA_rZ3NAuwMrX_zmsw%40mail.gmail.com&forum_name=freeglut-developer */
