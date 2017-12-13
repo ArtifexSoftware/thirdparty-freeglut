@@ -28,6 +28,10 @@
 #include <GL/freeglut.h>
 #include "../fg_internal.h"
 
+#ifndef MAPVK_VK_TO_CHAR
+#define MAPVK_VK_TO_CHAR 2
+#endif
+
 extern void fghRedrawWindow ( SFG_Window *window );
 extern void fghRedrawWindowAndChildren ( SFG_Window *window );
 extern void fghOnReshapeNotify(SFG_Window *window, int width, int height, GLboolean forceNotify);
@@ -740,6 +744,9 @@ static LRESULT fghWindowProcKeyPress(SFG_Window *window, UINT uMsg, GLboolean ke
         /* The delete key should be treated as an ASCII keypress: */
         if (keydown)
         {
+            INVOKE_WCB( *window, KeyboardDown,
+                        ( 127, window->State.MouseX, window->State.MouseY )
+            );
             INVOKE_WCB( *window, KeyboardExt,
                         ( 127, window->State.MouseX, window->State.MouseY )
             );
@@ -755,21 +762,16 @@ static LRESULT fghWindowProcKeyPress(SFG_Window *window, UINT uMsg, GLboolean ke
 
 #if !defined(_WIN32_WCE)
     default:
-        /* keydown displayable characters are handled with WM_CHAR message, but no corresponding up is generated. So get that here. */
-        if (!keydown)
+        /* Mapped characters are handled with the WM_CHAR message. Handle low-level ASCII press/release callbacks here. */
         {
-            BYTE state[ 256 ];
-            WORD code[ 2 ];
-
-            GetKeyboardState( state );
-
-            if( ToAscii( (UINT)wParam, 0, state, code, 0 ) == 1 )
-                wParam=code[ 0 ];
-
-            INVOKE_WCB( *window, KeyboardUp,
-                   ( (char)(wParam & 0xFF), /* and with 0xFF to indicate to runtime that we want to strip out higher bits - otherwise we get a runtime error when "Smaller Type Checks" is enabled */
-                        window->State.MouseX, window->State.MouseY )
-            );
+            int ascii = MapVirtualKey(wParam, MAPVK_VK_TO_CHAR);
+            if (ascii >= 32 && ascii <= 126)
+            {
+                if (keydown)
+                    INVOKE_WCB(*window, KeyboardDown, (unsigned char)ascii, window->State.MouseX, window->State.MouseY);
+                else
+                    INVOKE_WCB(*window, KeyboardUp, (unsigned char)ascii, window->State.MouseX, window->State.MouseY);
+            }
         }
 #endif
     }
