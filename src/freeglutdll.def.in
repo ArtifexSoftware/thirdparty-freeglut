@@ -65,6 +65,8 @@ EXPORTS
 	glutEntryFunc
 	glutCloseFunc
 	glutWMCloseFunc
+	glutKeyboardExtFunc
+	glutKeyboardDownFunc
 	glutKeyboardUpFunc
 	glutSpecialUpFunc
 	glutJoystickFunc
