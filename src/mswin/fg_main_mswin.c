@@ -764,13 +764,16 @@ static LRESULT fghWindowProcKeyPress(SFG_Window *window, UINT uMsg, GLboolean ke
     default:
         /* Mapped characters are handled with the WM_CHAR message. Handle low-level ASCII press/release callbacks here. */
         {
-            int ascii = MapVirtualKey(wParam, MAPVK_VK_TO_CHAR);
-            if (ascii >= 32 && ascii <= 126)
+            UINT ascii = (UINT)MapVirtualKey((UINT)wParam, MAPVK_VK_TO_CHAR);
+            if (ascii >= 32 && ascii < 256)
             {
+				/* Always send lowercase (unshifted) values */
+				if (ascii >= 'A' && ascii <= 'Z')
+						ascii = ascii - 'A' + 'a';
                 if (keydown)
-                    INVOKE_WCB(*window, KeyboardDown, (unsigned char)ascii, window->State.MouseX, window->State.MouseY);
+                    INVOKE_WCB(*window, KeyboardDown, ((unsigned char)ascii, window->State.MouseX, window->State.MouseY) );
                 else
-                    INVOKE_WCB(*window, KeyboardUp, (unsigned char)ascii, window->State.MouseX, window->State.MouseY);
+                    INVOKE_WCB(*window, KeyboardUp, ((unsigned char)ascii, window->State.MouseX, window->State.MouseY) );
             }
         }
 #endif
@@ -1460,11 +1463,11 @@ LRESULT CALLBACK fgPlatformWindowProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 
         fgState.Modifiers = fgPlatformGetModifiers( );
         INVOKE_WCB( *window, KeyboardExt,
-                ( wParam, window->State.MouseX, window->State.MouseY )
+                ( (int)wParam, window->State.MouseX, window->State.MouseY )
         );
-        if (wParam < 128)
+        if (wParam < 256)
             INVOKE_WCB( *window, Keyboard,
-                    ( (char)wParam, window->State.MouseX, window->State.MouseY )
+                    ( (unsigned char)wParam, window->State.MouseX, window->State.MouseY )
             );
         fgState.Modifiers = INVALID_MODIFIERS;
     }
