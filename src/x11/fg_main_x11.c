@@ -1184,6 +1184,7 @@ void fgPlatformProcessSingleEvent ( void )
             FGCBKeyboardExt keyboard_ext_cb;
             FGCBKeyboard keyboard_cb, keyboard_low_cb;
             FGCBSpecial special_cb;
+            int did_keyboard_cb = 0;
 
             GETWINDOW( xkey );
             GETMOUSE( xkey );
@@ -1283,6 +1284,8 @@ void fgPlatformProcessSingleEvent ( void )
                     }
 
                     fgState.Modifiers = INVALID_MODIFIERS;
+
+                    did_keyboard_cb = 1;
                 }
 
                 if (utf8 != buf)
@@ -1354,8 +1357,10 @@ void fgPlatformProcessSingleEvent ( void )
                 /*
                  * Execute the callback (if one has been specified),
                  * given that the special code seems to be valid...
+                 * But only if we haven't already sent translated text for it,
+                 * such as numeric keypad keys with numlock on.
                  */
-                if( special_cb && (special != -1) )
+                if( special_cb && (special != -1) && !did_keyboard_cb )
                 {
                     fgSetWindow( window );
                     fgState.Modifiers = fgPlatformGetModifiers( event.xkey.state );
