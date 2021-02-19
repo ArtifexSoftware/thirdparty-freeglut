@@ -31,6 +31,7 @@
 #include <errno.h>
 #include <limits.h>
 #include <stdarg.h>
+#include <sys/select.h>
 
 /*
  * Try to get the maximum value allowed for ints, falling back to the minimum
